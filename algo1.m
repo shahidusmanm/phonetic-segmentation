@@ -30,5 +30,70 @@ while n < L
 	h(n) = B;
     n=n+1;
 end
+
+n = 2;
+Lh = length (h);
+
+while n < Lh
+
+    if isnan (h(n))
+        h(n) = h(n-1) + h(n+1);
+        h(n) = h(n)/2;
+    end
+    n=n+1;
+end
+
+n = 2;
+Lh = length (h);
+
+while n < Lh
+
+    if isnan (h(n))
+        h(n) = h(n-1) + h(n+2);
+        h(n) = h(n)/2;
+    end
+    n=n+1;
+end
+
+n=1;
+while n<5
+    h(~isfinite(h))=0;
+n=n+1;
+end
+
+n=10000;
+while n<Lh
+    if h(n)== 0;
+        h(n) = h(n-1) + h(n+1);
+        h(n) = h(n)/2; 
+    end
+    n=n+1;
+end
+
 subplot(2,1,1); plot(y);
 subplot(2,1,2); plot (h);
+
+H = buffer(h,Fs*32e-3,Fs*10e-3);
+
+%{
+n = 2;
+Lh = length (h);
+havg = 0;
+while n < Lh
+ havg = h(n) + h(n+1);
+ n = n+1;
+ havg = havg/Lh ; 
+end
+%}
+
+
+%{
+k=0;
+for k = Lh
+    ACC(k) = h(1:k) - ones(1,k)*havg ;
+    k = k+1;
+end 
+%}
+
+
+
